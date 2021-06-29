@@ -12,7 +12,7 @@ export default function App() {
   const [showComponent, setShowComponent] = useState(<SQLiteExample />);
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <View style={{ flex: 1 }}>
 
       <View style={{flexDirection: 'row', height: 40, borderBottomWidth: 1, borderBottomColor: "#aaaaaa"}}>
 
@@ -57,6 +57,6 @@ export default function App() {
 
       {showComponent}
 
-    </SafeAreaView>
+    </View>
   );
 };

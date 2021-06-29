@@ -1,28 +1,36 @@
 import React, { useState, useEffect } from 'react';
 
-import { SafeAreaView, Text, View, StyleSheet, Alert, TouchableOpacity, TextInput } from 'react-native';
+import {SafeAreaView, Text, View, StyleSheet, Alert, TouchableOpacity, TextInput, ScrollView} from 'react-native';
 
 import { openDatabase } from 'react-native-sqlite-storage';
 
-var db = openDatabase({ name: 'SchoolDatabase.db'});
+import KeysView from "./KeysView";
+import DataView from "./DataView";
+
+const db = openDatabase({ name: 'SchoolDatabase.db'});
 
 export default function SQLiteExample() {
 
-  const [S_Name, setName] = useState('');
-  const [S_Phone, setPhone] = useState();
-  const [S_Address, setAddress] = useState('');
+  const [Name, setName] = useState('');
+  const [Phone, setPhone] = useState();
+  const [Address, setAddress] = useState('');
+  const [id, setId] = useState('');
+
+  const [isAnyData, setIsAnyData] = useState(false);
+  const [key, setKey] = useState(null);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     db.transaction(function (txn) {
       txn.executeSql(
-        "SELECT name FROM sqlite_master WHERE type='table' AND name='Student_Table'",
+        "SELECT name FROM sqlite_master WHERE type='table' AND name='TestTable'",
         [],
         function (tx, res) {
           console.log('item:', res.rows.length);
           if (res.rows.length == 0) {
-            txn.executeSql('DROP TABLE IF EXISTS Student_Table', []);
+            txn.executeSql('DROP TABLE IF EXISTS TestTable', []);
             txn.executeSql(
-              'CREATE TABLE IF NOT EXISTS Student_Table(student_id INTEGER PRIMARY KEY AUTOINCREMENT, student_name VARCHAR(30), student_phone INT(15), student_address VARCHAR(255))',
+              'CREATE TABLE IF NOT EXISTS TestTable(id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(30), phone INT(15), address VARCHAR(255))',
               []
             );
           }
@@ -30,38 +38,76 @@ export default function SQLiteExample() {
       );
     })
 
+    viewData() ;
+
   }, []);
 
   const insertData = () => {
 
-    db.transaction(function (tx) {
-      tx.executeSql(
-        'INSERT INTO Student_Table (student_name, student_phone, student_address) VALUES (?,?,?)',
-        [S_Name, S_Phone, S_Address],
-        (tx, results) => {
-          console.log('Results', results.rowsAffected);
-          if (results.rowsAffected > 0) {
-            Alert.alert('Data Inserted Successfully....');
-          } else Alert.alert('Failed....');
-        }
-      );
-    });
+    if(Name!=='' && Phone!=='' && Address!==''){
+      db.transaction(function (tx) {
+        tx.executeSql(
+            'INSERT INTO TestTable (name, phone, address) VALUES (?,?,?)',
+            [Name, Phone, Address],
+            (tx, results) => {
+              console.log('Results', results.rowsAffected);
+              if (results.rowsAffected > 0) {
+                Alert.alert('Data Inserted Successfully....');
+              } else Alert.alert('Failed....');
+            }
+        );
+      });
 
-    viewStudent() ;
+      setName('');
+      setPhone('');
+      setAddress('');
+
+      viewData() ;
+    }
 
   }
 
-  const viewStudent = () => {
+  const deleteData = () => {
+
+    if(id!==''){
+      db.transaction(function (tx) {
+        tx.executeSql(
+            'DELETE FROM TestTable WHERE id = ?',
+            [id],
+            (tx, results) => {
+              Alert.alert(results.toString());
+              // console.log('Results', results.rowsAffected);
+              // if (results.rowsAffected > 0) {
+              //   Alert.alert('Data Inserted Successfully....');
+              // } else Alert.alert('Failed....');
+            }
+        );
+      });
+
+      setId('');
+
+      viewData() ;
+    }
+
+  }
+
+  const viewData = () => {
 
     db.transaction((tx) => {
       tx.executeSql(
-        'SELECT * FROM Student_Table',
+        'SELECT * FROM TestTable',
         [],
         (tx, results) => {
-          var temp = [];
+          let temp = [];
+
+          if (results.rows.length > 0){
+            setIsAnyData(true);
+          }
+
           for (let i = 0; i < results.rows.length; ++i)
-            temp.push(results.rows.item(i));
-          console.log(temp);
+            temp.push(<DataView data={results.rows.item(i)}/>);
+          setData(temp);
+          setKey(<KeysView data={results.rows.item(0)} />);
         }
       );
     });
@@ -69,11 +115,22 @@ export default function SQLiteExample() {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <View style={{ flex: 1}}>
+
+      {
+        isAnyData && ( <View style={styles.table}>
+              {key}
+              <ScrollView>
+                {data}
+              </ScrollView>
+            </View>
+        )
+      }
+
       <View style={styles.mainContainer}>
 
-        <Text style={{ fontSize: 24, textAlign: 'center', color: '#000' }}>
-          Insert Data Into SQLite Database
+        <Text style={{ fontSize: 20, textAlign: 'center', color: '#000' }}>
+          Test SQLite Database
         </Text>
 
         <TextInput
@@ -81,37 +138,59 @@ export default function SQLiteExample() {
           onChangeText={
             (text) => setName(text)
           }
-          placeholder="Enter Student Name"
-          value={S_Name} />
+          placeholder="Enter Name"
+          value={Name} />
 
         <TextInput
           style={styles.textInputStyle}
           onChangeText={
             (text) => setPhone(text)
           }
-          placeholder="Enter Student Phone Number"
+          placeholder="Enter Phone Number"
           keyboardType={'numeric'}
-          value={S_Phone} />
+          value={Phone} />
 
         <TextInput
           style={[styles.textInputStyle, { marginBottom: 20 }]}
           onChangeText={
             (text) => setAddress(text)
           }
-          placeholder="Enter Student Address"
-          value={S_Address} />
+          placeholder="Enter Address"
+          value={Address} />
 
         <TouchableOpacity
           style={styles.touchableOpacity}
           onPress={insertData}>
 
-          <Text style={styles.touchableOpacityText}> Click Here To Insert Data Into SQLite Database </Text>
+          <Text style={styles.touchableOpacityText}> Click To Insert Data Into SQLite Database </Text>
 
         </TouchableOpacity>
 
+        <TextInput
+            style={[styles.textInputStyle, { marginBottom: 20 }]}
+            onChangeText={
+              (text) => setId(text)
+            }
+            placeholder="Enter Id"
+            value={id} />
+
+        <TouchableOpacity
+            style={styles.touchableOpacity}
+            onPress={deleteData}>
+
+          <Text style={styles.touchableOpacityText}> Click To Delete Data from SQLite Database </Text>
+
+        </TouchableOpacity>
+
+
+
+
       </View>
 
-    </SafeAreaView>
+
+
+
+    </View>
   );
 };
 
@@ -132,7 +211,7 @@ const styles = StyleSheet.create({
 
   touchableOpacityText: {
     color: '#FFFFFF',
-    fontSize: 23,
+    fontSize: 18,
     textAlign: 'center',
     padding: 8
   },
@@ -146,4 +225,8 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     marginTop: 15,
   },
+
+  table: {
+    maxHeight: 200,
+  }
 });
