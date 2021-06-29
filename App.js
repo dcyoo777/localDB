@@ -4,6 +4,7 @@ import { SafeAreaView, Text, View, StyleSheet, Alert, TouchableOpacity, TextInpu
 
 import SQLiteExample from "./components/SQLiteExample";
 import RealmExample from "./components/RealmExample";
+import SQLiteExample2 from "./components/SQLiteExample2";
 
 export default function App() {
 
@@ -23,16 +24,28 @@ export default function App() {
           }}
         >
           <Text style={{textAlign: "center", alignItems: "center"}}>
-            SQLite
+            SQLite1
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={{flex: 1, backgroundColor: nav===1?'#C6C6DA':'#E6E6FA', justifyContent: "center"}}
+          onPress={()=>{
+            setShowComponent(<SQLiteExample2 />);
+            setNav(1);
+          }}
+        >
+          <Text style={{textAlign: "center", alignItems: "center"}}>
+            SQLite2
           </Text>
         </TouchableOpacity>
 
 
         <TouchableOpacity
-          style={{flex: 1, backgroundColor: nav===1?'#C6C6DA':'#E6E6FA', justifyContent: "center"}}
+          style={{flex: 1, backgroundColor: nav===2?'#C6C6DA':'#E6E6FA', justifyContent: "center"}}
           onPress={()=>{
             setShowComponent(<RealmExample />);
-            setNav(1);
+            setNav(2);
           }}
         >
           <Text style={{textAlign: "center", alignItems: "center"}}>
