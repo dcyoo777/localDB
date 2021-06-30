@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
-import { SafeAreaView, Text, View, StyleSheet, Alert, TouchableOpacity, TextInput } from 'react-native';
+import { SafeAreaView, Text, View, TouchableOpacity, } from 'react-native';
 
 import SQLiteExample from "./components/SQLiteExample";
 import RealmExample from "./components/RealmExample";

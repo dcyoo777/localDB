@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 
-import { SafeAreaView, Text, ScrollView, View, StyleSheet, Alert, TouchableOpacity, TextInput } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 import { openDatabase } from 'react-native-sqlite-storage';
 
 import KeysView from "./KeysView";
 import DataView from "./DataView";
 
-const db = openDatabase({name: 'TestDB.db',
-  createFromLocation: 1,});
+const db = openDatabase({
+  name: 'TestDB.db',
+  createFromLocation: 1,
+});
 
 export default function SQLiteExample2() {
 
@@ -18,18 +20,12 @@ export default function SQLiteExample2() {
 
   useEffect(() => {
 
-    console.log(1)
-
     db.transaction(function (txn) {
-
-      console.log(2)
 
       txn.executeSql(
         "SELECT * FROM todolist",
         [],
         function (tx, res) {
-
-          console.log(3)
 
           let readData = [];
 
@@ -45,16 +41,11 @@ export default function SQLiteExample2() {
             setTodos(readData);
 
           }
-
-          console.log(readData);
-
         }
       );
     })
 
   }, []);
-
-  console.log(4)
 
   return (
     <View style={{ flex: 1 }}>

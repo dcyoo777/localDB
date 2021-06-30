@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
-import {SafeAreaView, Text, View, StyleSheet, Alert, TouchableOpacity, TextInput, ScrollView} from 'react-native';
+import {Text, View, StyleSheet, Alert, TouchableOpacity, TextInput, ScrollView} from 'react-native';
 
 import { openDatabase } from 'react-native-sqlite-storage';
 
 import KeysView from "./KeysView";
 import DataView from "./DataView";
 
-const db = openDatabase({ name: 'SchoolDatabase.db'});
+const db = openDatabase({ name: 'TestDatabase.db'});
 
 export default function SQLiteExample() {
 
@@ -125,7 +125,8 @@ export default function SQLiteExample() {
 
           if (results.rows.length > 0){
             setIsAnyData(true);
-
+            console.log(typeof results.rows)
+            console.log(results.rows)
             for (let i = 0; i < results.rows.length; ++i)
               temp.push(<DataView data={results.rows.item(i)}/>);
             setData(temp);
@@ -227,14 +228,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 8,
     justifyContent: 'center',
-    width: '100%'
+    width: '100%',
+    marginTop: 8,
   },
 
   touchableOpacityText: {
     color: '#FFFFFF',
     fontSize: 18,
     textAlign: 'center',
-    padding: 8
+    padding: 8,
   },
 
   textInputStyle: {

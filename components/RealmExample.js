@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { SafeAreaView, Text, View, StyleSheet, Alert, TouchableOpacity, TextInput, ScrollView } from "react-native";
+import { Text, View, StyleSheet, Alert, TouchableOpacity, TextInput, ScrollView } from "react-native";
 
 import Realm from 'realm';
 import DataView from "./DataView";
@@ -36,6 +36,7 @@ export default function RealmExample() {
   useEffect(() => {
 
     viewData() ;
+    console.log(new Int8Array(64));
 
   }, []);
 
@@ -212,7 +213,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 8,
     justifyContent: 'center',
-    width: '100%'
+    width: '100%',
+    marginTop: 8,
   },
 
   touchableOpacityText: {
