@@ -18,8 +18,9 @@ const PersonSchema = {
 };
 
 const realm = new Realm({
-    path: "myRealm",
+    path: "myRealm2",
     schema: [PersonSchema],
+    encryptionKey: new Int8Array(64),
 })
 
 export default function RealmExample() {
