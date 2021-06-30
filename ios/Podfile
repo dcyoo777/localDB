@@ -12,7 +12,6 @@ target 'untitled1' do
     :hermes_enabled => false
   )
 
-  pod 'react-native-sqlite-storage', :path => '../node_modules/react-native-sqlite-storage'
 
   target 'untitled1Tests' do
     inherit! :complete

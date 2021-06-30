@@ -75,16 +75,39 @@ export default function SQLiteExample() {
             'DELETE FROM TestTable WHERE id = ?',
             [id],
             (tx, results) => {
-              Alert.alert(results.toString());
-              // console.log('Results', results.rowsAffected);
-              // if (results.rowsAffected > 0) {
-              //   Alert.alert('Data Inserted Successfully....');
-              // } else Alert.alert('Failed....');
+
+              if (results.rowsAffected > 0) {
+                Alert.alert('Data Deleted Successfully....');
+              } else Alert.alert('Failed....');
             }
         );
       });
 
       setId('');
+
+      viewData() ;
+    }
+
+  }
+
+  const modifyData = () => {
+
+    if(id!=='' && Address!==''){
+      db.transaction(function (tx) {
+        tx.executeSql(
+          'UPDATE TestTable SET address = ? WHERE id = ?;',
+          [Address, id],
+          (tx, results) => {
+
+            if (results.rowsAffected > 0) {
+              Alert.alert('Data Modified Successfully....');
+            } else Alert.alert('Failed....');
+          }
+        );
+      });
+
+      setId('');
+      setAddress('');
 
       viewData() ;
     }
@@ -102,12 +125,14 @@ export default function SQLiteExample() {
 
           if (results.rows.length > 0){
             setIsAnyData(true);
+
+            for (let i = 0; i < results.rows.length; ++i)
+              temp.push(<DataView data={results.rows.item(i)}/>);
+            setData(temp);
+            setKey(<KeysView data={results.rows.item(0)} />);
           }
 
-          for (let i = 0; i < results.rows.length; ++i)
-            temp.push(<DataView data={results.rows.item(i)}/>);
-          setData(temp);
-          setKey(<KeysView data={results.rows.item(0)} />);
+
         }
       );
     });
@@ -161,9 +186,7 @@ export default function SQLiteExample() {
         <TouchableOpacity
           style={styles.touchableOpacity}
           onPress={insertData}>
-
-          <Text style={styles.touchableOpacityText}> Click To Insert Data Into SQLite Database </Text>
-
+          <Text style={styles.touchableOpacityText}> Insert </Text>
         </TouchableOpacity>
 
         <TextInput
@@ -177,18 +200,16 @@ export default function SQLiteExample() {
         <TouchableOpacity
             style={styles.touchableOpacity}
             onPress={deleteData}>
-
-          <Text style={styles.touchableOpacityText}> Click To Delete Data from SQLite Database </Text>
-
+          <Text style={styles.touchableOpacityText}> Delete </Text>
         </TouchableOpacity>
 
-
-
+        <TouchableOpacity
+          style={styles.touchableOpacity}
+          onPress={modifyData}>
+          <Text style={styles.touchableOpacityText}> Modify Address </Text>
+        </TouchableOpacity>
 
       </View>
-
-
-
 
     </View>
   );

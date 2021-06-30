@@ -14,6 +14,7 @@
 		6EBFFEDFEB2DE9DB99A9E427 /* libPods-untitled1-untitled1Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 119A6A45ECE10BC1C5FB8B8D /* libPods-untitled1-untitled1Tests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		C2569623704C8A8D90477526 /* libPods-untitled1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F17F0013736A4D3C407E44 /* libPods-untitled1.a */; };
+		D79CE6FD268B257100B96042 /* www in Resources */ = {isa = PBXBuildFile; fileRef = D79CE6FC268B257100B96042 /* www */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +44,7 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = untitled1/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		936385ED98C5BCED49F4B561 /* Pods-untitled1.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-untitled1.debug.xcconfig"; path = "Target Support Files/Pods-untitled1/Pods-untitled1.debug.xcconfig"; sourceTree = "<group>"; };
 		C52561E4F34081F27362F430 /* Pods-untitled1-untitled1Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-untitled1-untitled1Tests.debug.xcconfig"; path = "Target Support Files/Pods-untitled1-untitled1Tests/Pods-untitled1-untitled1Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		D79CE6FC268B257100B96042 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; name = www; path = untitled1/www; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -86,6 +88,7 @@
 		13B07FAE1A68108700A75B9A /* untitled1 */ = {
 			isa = PBXGroup;
 			children = (
+				D79CE6FC268B257100B96042 /* www */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -242,6 +245,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D79CE6FD268B257100B96042 /* www in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);

@@ -23,7 +23,7 @@ function DataView(props) {
 
 
     return(
-        <View key={props.data['student_id']} style={{backgroundColor: 'white'}}>
+        <View key={props.data['id']} style={{backgroundColor: 'white'}}>
             {dataView}
         </View>
     );
